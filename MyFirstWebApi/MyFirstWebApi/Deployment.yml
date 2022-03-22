@@ -1,0 +1,34 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: MyFirstWebApi-deployment
+  labels:
+    app: MyFirstWebApi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: MyFirstWebApi	  
+  template:
+    metadata:
+      labels:
+        app: MyFirstWebApi
+    spec:
+      containers:
+      - name: MyFirstWebApi
+        image: <image>
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: acrcredentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: MyFirstWebApisvc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: MyFirstWebApi
